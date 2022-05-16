@@ -1,13 +1,14 @@
 package com.kata.bankaccount;
 
 public class Account {
-    private static final String HEADER = "date || amount || balance";
+    private static final String HEADER = "date || debit || credit || balance";
     private Amount balance = new Amount(0);
 
     private final Transactions transactions = new Transactions();
 
     public void deposit(Transaction transaction) {
         this.balance = this.balance.plus(transaction.amount());
+        transactions.add(transaction.setBalance(this.balance));
     }
 
     public Amount getBalance() {
@@ -16,6 +17,7 @@ public class Account {
 
     public void withdrawal(Transaction transaction) {
         this.balance = this.balance.subtract(transaction.amount());
+        transactions.add(transaction.setBalance(this.balance));
     }
 
     public String printStatement() {

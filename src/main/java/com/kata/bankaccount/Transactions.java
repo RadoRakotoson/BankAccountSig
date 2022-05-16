@@ -1,10 +1,7 @@
 package com.kata.bankaccount;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class Transactions {
 
@@ -21,7 +18,7 @@ public class Transactions {
 
         transactions.forEach(transaction -> builder
                 .insert(0, "\n")
-                .insert(0, transaction.printStatement().trim()));
+                .insert(1, transaction.printStatement().trim()));
 
         return builder.toString();
     }

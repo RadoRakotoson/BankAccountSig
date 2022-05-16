@@ -12,8 +12,8 @@ public record Transaction(LocalDate date, Amount amount, TransactionType transac
         Amount amount = this.amount;
         String date = this.date.getDayOfMonth() + "-" + String.format("%02d", this.date.getMonthValue()) + "-" + this.date.getYear();
 
-        String transaction = (this.transactionType == TransactionType.DEBIT ? amount + " || " : " || " + amount);
-        return date.trim() + " || " + transaction + " || " + balance;
+        String transaction = (this.transactionType == TransactionType.DEBIT ? amount.toDouble() + " || " : " || " + amount.toDouble());
+        return date.trim() + " || " + transaction + " || " + balance.toDouble();
     }
 
 }
