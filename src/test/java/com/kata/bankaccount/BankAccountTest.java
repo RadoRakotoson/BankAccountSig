@@ -94,7 +94,7 @@ public class BankAccountTest {
     }
 
     @Test
-    void statement_must_contains_date_of_today_and_specified_deposit_amount() throws ParseException {
+    void statement_must_contains_date_of_today_and_specified_deposit_amount() {
         clock.setNow(LocalDate.of(2022, Month.MAY, 12));
         newAccount.deposit(new Amount(10));
 
