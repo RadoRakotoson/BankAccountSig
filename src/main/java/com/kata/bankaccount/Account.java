@@ -3,15 +3,17 @@ package com.kata.bankaccount;
 public class Account {
     private Amount balance = new Amount(0);
 
-    public void deposit(Amount depositAmount) {
-        this.balance = this.balance.plus(depositAmount);
+    private final Transactions transactions = new Transactions();
+
+    public void deposit(Transaction transaction) {
+        this.balance = this.balance.plus(transaction.amount());
     }
 
     public Amount getBalance() {
         return balance;
     }
 
-    public void withdrawal(Amount withdrawalAmount) {
-        this.balance = this.balance.subtract(withdrawalAmount);
+    public void withdrawal(Transaction transaction) {
+        this.balance = this.balance.subtract(transaction.amount());
     }
 }
