@@ -6,7 +6,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
+import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.Month;
 
 import static com.kata.bankaccount.TransactionTestUtils.getTransaction;
 import static com.kata.bankaccount.TransactionType.CREDIT;
@@ -17,9 +19,12 @@ public class BankAccountTest {
 
     private Account newAccount;
 
+    private InMemoryClock clock;
+
     @BeforeEach
     void setUp() {
-        newAccount = new Account();
+        clock = new InMemoryClock();
+        newAccount = new Account(clock);
     }
 
     @ParameterizedTest
@@ -86,6 +91,16 @@ public class BankAccountTest {
                         14-01-2012 || 500.00 ||  || 2500.00
                         13-01-2012 ||  || 2000.00 || 3000.00
                         10-01-2012 ||  || 1000.00 || 1000.00""");
+    }
+
+    @Test
+    void statement_must_contains_date_of_today_and_specified_deposit_amount() throws ParseException {
+        clock.setNow(LocalDate.of(2022, Month.MAY, 12));
+        newAccount.deposit(new Amount(10));
+
+        Transaction statement = newAccount.getTransaction(0);
+
+        assertThat(statement).isEqualTo(getTransaction(new Amount(10), "2022-05-12", CREDIT));
     }
 
 }

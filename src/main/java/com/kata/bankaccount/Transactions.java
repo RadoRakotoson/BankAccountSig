@@ -23,4 +23,7 @@ public class Transactions {
         return builder.toString();
     }
 
+    public Transaction getBy(int index) {
+        return transactions.get(index);
+    }
 }
