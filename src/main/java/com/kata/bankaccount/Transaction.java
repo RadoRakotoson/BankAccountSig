@@ -8,4 +8,12 @@ public record Transaction(LocalDate date, Amount amount, TransactionType transac
         return new com.kata.bankaccount.Transaction(date, amount, transactionType, balance);
     }
 
+    public String printStatement() {
+        Amount amount = this.amount;
+        String date = this.date.getDayOfMonth() + "-" + String.format("%02d", this.date.getMonthValue()) + "-" + this.date.getYear();
+
+        String transaction = (this.transactionType == TransactionType.DEBIT ? amount + " || " : " || " + amount);
+        return date.trim() + " || " + transaction + " || " + balance;
+    }
+
 }

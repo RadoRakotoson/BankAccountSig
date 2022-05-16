@@ -51,6 +51,12 @@ public class BankAccountTest {
         assertThat(account.getBalance()).isEqualTo(balanceDeposit);
     }
 
+    @Test
+    void header_only_shown_when_no_operation_initialized() {
+        Account account = new Account();
+        assertThat(account.printStatement()).isEqualTo("date || amount || balance");
+    }
+
     private Transaction getTransaction(Amount amount, String date, TransactionType transactionType) {
         return new Transaction(LocalDate.parse(date), amount, transactionType, amount);
     }
