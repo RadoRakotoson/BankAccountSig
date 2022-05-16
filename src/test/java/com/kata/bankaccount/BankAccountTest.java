@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 import java.time.LocalDate;
 
+import static com.kata.bankaccount.TransactionTestUtils.getTransaction;
 import static com.kata.bankaccount.TransactionType.CREDIT;
 import static com.kata.bankaccount.TransactionType.DEBIT;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -60,11 +61,6 @@ public class BankAccountTest {
     void header_only_shown_when_no_operation_initialized() {
         assertThat(newAccount.printStatement()).isEqualTo("date || debit || credit || balance");
     }
-
-    private Transaction getTransaction(Amount amount, String date, TransactionType transactionType) {
-        return new Transaction(LocalDate.parse(date), amount, transactionType, amount);
-    }
-
 
     @Test
     void must_show_one_operation_when_one_transaction_initialized() {
