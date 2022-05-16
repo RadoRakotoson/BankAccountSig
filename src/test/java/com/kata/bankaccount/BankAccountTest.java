@@ -12,8 +12,11 @@ public class BankAccountTest {
     @ValueSource(ints = {2000, 450, 900})
     void specified_amount_should_be_add_to_current_balance(int amount) {
         Account account = new Account();
-        account.deposit(amount);
-        assertThat(account.getBalance()).isEqualTo(amount);
+        Amount depositAmount = new Amount(amount);
+
+        account.deposit(depositAmount);
+
+        assertThat(account.getBalance()).isEqualTo(depositAmount);
     }
 
 
@@ -21,10 +24,11 @@ public class BankAccountTest {
     @CsvSource({"700,300", "250,750", "900,100"})
     void specified_amount_should_be_retrieve_to_current_balance(int amount, int expectAmountValue) {
         Account account = new Account();
-        account.deposit(1000);
-        account.withdrawal(amount);
+        account.deposit(new Amount(1000));
 
-        assertThat(account.getBalance()).isEqualTo(expectAmountValue);
+        account.withdrawal(new Amount(amount));
+
+        assertThat(account.getBalance()).isEqualTo(new Amount(expectAmountValue));
     }
 
 
