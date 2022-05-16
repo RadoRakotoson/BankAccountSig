@@ -1,5 +1,6 @@
 package com.kata.bankaccount;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -15,9 +16,8 @@ public class BankAccountTest {
     void specified_amount_should_be_add_to_current_balance(int amount) {
         Account account = new Account();
         Amount depositAmount = new Amount(amount);
-        Transaction depositTransaction = new Transaction(LocalDate.parse("2022-04-10"), depositAmount);
 
-        account.deposit(depositTransaction);
+        account.deposit(getTransaction(depositAmount, "2022-04-10"));
 
         assertThat(account.getBalance()).isEqualTo(depositAmount);
     }
@@ -29,13 +29,29 @@ public class BankAccountTest {
         Account account = new Account();
         Amount initialAmount = new Amount(1000);
         Amount withdrawalAmount = new Amount(amount);
-        Transaction depositTransaction = new Transaction(LocalDate.parse("2022-04-10"), initialAmount);
-        Transaction withdrawalTransaction = new Transaction(LocalDate.parse("2022-04-11"), withdrawalAmount);
 
-        account.deposit(depositTransaction);
-        account.withdrawal(withdrawalTransaction);
+        account.deposit(getTransaction(initialAmount, "2022-04-10"));
+        account.withdrawal(getTransaction(withdrawalAmount, "2022-04-11"));
 
         assertThat(account.getBalance()).isEqualTo(new Amount(expectAmountValue));
     }
+
+    @Test
+    void current_balance_must_be_changed_after_each_transaction() {
+        Account account = new Account();
+        Amount depositAmount = new Amount(200);
+        Amount lastDepositAmount = new Amount(1200);
+        Amount balanceDeposit = depositAmount.plus(lastDepositAmount);
+
+        account.deposit(getTransaction(depositAmount, "2012-02-10"));
+        account.deposit(getTransaction(lastDepositAmount, "2012-02-11"));
+
+        assertThat(account.getBalance()).isEqualTo(balanceDeposit);
+    }
+
+    private Transaction getTransaction(Amount amount, String date) {
+        return new Transaction(LocalDate.parse(date), amount);
+    }
+
 
 }
